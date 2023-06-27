@@ -1,0 +1,79 @@
+ #include<bits/stdc++.h>
+ 
+ #define int long long int
+ #define F first
+ #define S second
+ #define pb push_back
+ #define que_max priority_queue<int>
+ #define que_min priority_queue<int,vector<int>,greater<int>>;
+  #define endl "\n"
+  using namespace std;
+  
+  vector<int>weight,value;
+
+  vector<vector<int>>memo;
+
+  int dp(int i ,int j)
+  {
+    if(i>=weight.size())
+    {
+        return 0;
+    }
+
+
+    int &ans=memo[i][j];
+    if(ans!=-1)
+    {
+        return ans;
+
+    }
+  //  cout<<"yha aya"<<endl;
+    if(j>=weight[i])
+    {
+        ans=max(ans,value[i]+dp(i+1,j-weight[i]));
+    }
+
+    ans=max(ans,dp(i+1,j));
+
+    return ans;
+
+
+
+
+  }
+
+
+
+
+
+
+  int32_t main()
+  {
+  #ifndef ONLINE_JUDGE
+      freopen("input.txt","r",stdin);
+      freopen("output.txt","w",stdout);
+  #endif
+  
+ 
+ int n,w;
+ cin>>n>>w;
+  
+ for(int i=0;i<n;i++)
+ {
+    int x,y;
+    cin>>x>>y;
+    weight.push_back(x);value.push_back(y);
+
+ }
+
+ memo.resize(n+10,vector<int>(w+10,-1));
+
+  cout<<dp(0,w)<<endl;
+
+
+
+
+
+ 
+      return 0;
+  }
