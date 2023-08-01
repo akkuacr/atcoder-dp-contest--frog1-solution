@@ -1,0 +1,101 @@
+ #include<bits/stdc++.h>
+ 
+ #define int long long int
+ #define F first
+ #define S second
+ #define pb push_back
+ #define que_max priority_queue<int>
+ #define que_min priority_queue<int,vector<int>,greater<int>>;
+  #define endl "\n"
+  using namespace std;
+  
+   string a,b;
+
+   vector<vector<int>>memo;
+
+
+   int  lcs(int i,int j)
+   {
+      if(i<0 || j<0)
+      {
+        return 0;
+      }
+
+
+      int &ans=memo[i][j];
+      if(ans!=-1)
+      {
+        return ans;
+      }
+
+      ans=0;
+
+
+      if(a[i]==b[j])
+      {
+          ans=1+lcs(i-1,j-1);
+      }else
+      {
+        ans=max(lcs(i-1,j),lcs(i,j-1));
+      }
+       
+
+       return ans;
+
+   }
+
+    void printLCS(int i,int j ,string &ans)
+   {
+       if(i==-1 || j==-1)
+       {
+          return;
+       }
+
+       if(lcs(i-1,j-1)+1==lcs(i,j))
+       {
+          //cout<<i<<" "<<j<<endl;
+          ans+=a[i];
+          printLCS(i-1,j-1,ans);
+       }else if(lcs(i-1,j)==lcs(i,j))
+       {
+           printLCS(i-1,j,ans);
+       }else
+       {
+         printLCS(i,j-1,ans);
+       }
+
+
+
+
+   }
+
+
+
+
+
+
+  int32_t main()
+  {
+  
+  
+
+   cin>>a;
+   cin>>b;
+
+
+   int n=a.size(),m=b.size();
+   memo.resize(n+1,vector<int>(m+1,-1));
+
+
+  string ans="";
+   lcs(n-1,m-1);
+   printLCS(n-1,m-1,ans);
+   reverse(ans.begin(),ans.end());
+   cout<<ans<<endl;
+
+   
+ 
+
+ 
+      return 0;
+  }
